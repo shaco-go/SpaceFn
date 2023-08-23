@@ -1,5 +1,5 @@
 ;spaceFn键长按延时时间
-spaceFnDelayed := 200
+fnDelayed := 100
 ;SpaceFn
 Space::
 {
@@ -18,7 +18,7 @@ Space::
         global releaseKey
         diffTime := A_TickCount - StartTime
         if (GetKeyVK("Space") == vk) {
-            if (diffTime <= spaceFnDelayed) {
+            if (diffTime <= fnDelayed) {
                 Hotkey "Space", "OFF"
                 Send modifierPress(releaseKey "{Space}")
                 Hotkey "Space", "ON"
@@ -37,7 +37,7 @@ Space::
             return
         }
         ; 未超时记录
-        if (diffTime <= spaceFnDelayed) {
+        if (diffTime <= fnDelayed) {
             releaseKey := "{" GetKeyName(Format("vk{:x}sc{:x}", VK, SC)) "}" releaseKey
             return
         }
@@ -89,6 +89,8 @@ Space::
         }
     }
 }
+
+
 
 ; 支持修饰符的按下按键
 modifierPress(key){
