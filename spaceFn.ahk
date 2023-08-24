@@ -1,5 +1,5 @@
 ;spaceFn键长按延时时间
-fnDelayed := 100
+fnDelayed := 200
 ;SpaceFn
 Space::
 {
