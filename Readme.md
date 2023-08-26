@@ -48,5 +48,5 @@ SpaceFn 是由autohotkey v2开发的,可以查阅官网文档进行二次开发
 | `]`           | `PgDn`          |
 | `1` ~ `=`     | `F1` ~ `F12`    |
 | `Delete`      | `Insert`        |
-| ``            | `Esc`           |
+| `             | `Esc`           |
 | `Enter`       | `End` + `Enter` |
