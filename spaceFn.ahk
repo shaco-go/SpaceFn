@@ -10,6 +10,9 @@ for k,v in conf["KEY"] {
 }
 
 ;SpaceFn
++Space::
+^Space::
+^+Space::
 Space::
 {
     global startTime := A_TickCount
