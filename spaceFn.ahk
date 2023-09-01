@@ -65,8 +65,8 @@ Space::
         }
         ; 进入长按按键了,可以释放
         timeoutReleaseKey()
-        ; 如果spase没有释放掉,那么手动释放掉,然后原样输出
-        if GetKeyState("Space","P"){
+        ; 如果spase已经释放掉,那么手动释放掉,然后原样输出
+        if !GetKeyState("Space","P") {
             ih.Stop()
             modifierPress("{" GetKeyName(Format("vk{:x}sc{:x}", vk, sc)) "}")
             return
