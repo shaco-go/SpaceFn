@@ -9,6 +9,7 @@ for k,v in conf["KEY"] {
     vkKey[GetKeyVK(k)] := v
 }
 
+
 ;SpaceFn
 +Space::
 ^Space::
@@ -66,7 +67,7 @@ Space::
         ; 进入长按按键了,可以释放
         timeoutReleaseKey()
         ; 如果spase已经释放掉,那么手动释放掉,然后原样输出
-        if !GetKeyState("Space","P") {
+        if diffTime > conf["DEFAULT"]["press_time"] && !GetKeyState("Space") {
             ih.Stop()
             modifierPress("{" GetKeyName(Format("vk{:x}sc{:x}", vk, sc)) "}")
             return
