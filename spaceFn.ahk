@@ -109,11 +109,11 @@ modifierPress(key){
 getConf(){
     defaultConf := GetDEFAULTConf()
     try{
-        conf := FileRead(A_WorkingDir confFilePath)
+        conf := FileRead(confFilePath)
         ; 获取配置成功,覆盖默认配置
         data := map()
-        data["DEFAULT"] := iniRead confFilePath "DEFAULT" "press_time" defaultConf["DEFAULT"]["press_time"]
-        key := iniRead confFilePath "KEY"
+        data["DEFAULT"] := map("press_time",iniRead(confFilePath,"DEFAULT","press_time",defaultConf["DEFAULT"]["press_time"]))
+        key := iniRead(confFilePath,"KEY")
         data["KEY"] := getSectionMap(key)
         return data
     }catch{
