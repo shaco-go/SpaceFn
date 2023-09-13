@@ -112,7 +112,7 @@ getConf(){
         conf := FileRead(confFilePath)
         ; 获取配置成功,覆盖默认配置
         data := map()
-        data["DEFAULT"] := map("press_time",iniRead(confFilePath,"DEFAULT","press_time",defaultConf["DEFAULT"]["press_time"]))
+        data["DEFAULT"] := map("press_time",iniRead(confFilePath,"DEFAULT","press_time",defaultConf["DEFAULT"]["press_time"]),"startup",iniRead(confFilePath,"DEFAULT","startup",defaultConf["DEFAULT"]["startup"]))
         key := iniRead(confFilePath,"KEY")
         data["KEY"] := getSectionMap(key)
         return data
@@ -136,8 +136,10 @@ getConf(){
 
 ; 获取默认配置文件
 GetDEFAULTConf(){
+    ; 开机自动启动
+    startup := 1
     ; 按下时长
-    pressTime := 150
+    pressTime := 300
     ; 键盘的映射关系
     keyMap := map()
     keyMap["h"] := "{Left}"
@@ -164,7 +166,7 @@ GetDEFAULTConf(){
     keyMap["0"] := "{F10}"
     keyMap["-"] := "{F11}"
     keyMap["="] := "{F12}"
-    return map("DEFAULT",map("press_time",pressTime),"KEY",keyMap)
+    return map("DEFAULT",map("press_time",pressTime,"startup",startup),"KEY",keyMap)
 }
 
 ; 获取区域的配置文件,返回对应的map类型
@@ -194,4 +196,29 @@ trim(str){
     str := RegExReplace(str, "\\\[", "[")
     str := RegExReplace(str, "\\\]", "]")
     return str
+}
+
+
+;----------auto start-------------
+autoStartLnk := A_StartupCommon . "\spaceFn.lnk"
+MsgBox autoStartLnk
+if(conf["DEFAULT"]["startup"]) ;如果开启开机自启动
+{
+    if(FileExist(autoStartLnk))
+    {
+        FileGetShortcut autoStartLnk, &lnkTarget
+        if(lnkTarget!=A_ScriptFullPath)
+            FileCreateShortcut A_ScriptFullPath, autoStartLnk, A_WorkingDir
+    }
+    else
+    {
+        FileCreateShortcut A_ScriptFullPath, autoStartLnk, A_WorkingDir
+    }
+}
+else
+{
+    if(FileExist(autoStartLnk))
+    {
+        FileDelete autoStartLnk
+    }
 }
