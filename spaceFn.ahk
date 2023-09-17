@@ -200,25 +200,17 @@ trim(str){
 
 
 ;----------auto start-------------
-autoStartLnk := A_StartupCommon . "\spaceFn.lnk"
-MsgBox autoStartLnk
-if(conf["DEFAULT"]["startup"]) ;如果开启开机自启动
-{
-    if(FileExist(autoStartLnk))
-    {
-        FileGetShortcut autoStartLnk, &lnkTarget
-        if(lnkTarget!=A_ScriptFullPath)
-            FileCreateShortcut A_ScriptFullPath, autoStartLnk, A_WorkingDir
-    }
-    else
-    {
-        FileCreateShortcut A_ScriptFullPath, autoStartLnk, A_WorkingDir
-    }
-}
-else
-{
-    if(FileExist(autoStartLnk))
-    {
-        FileDelete autoStartLnk
+startUp()
+startUp(){
+    ; 是否需要开机启动
+    reg := RegRead("HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "spaceFn", "none")
+    if (conf["DEFAULT"]["startup"]) {
+        if reg != A_ScriptFullPath {
+            RegWrite A_ScriptFullPath, "REG_SZ", "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "spaceFn"
+        }
+    } else {
+         if reg == A_ScriptFullPath {
+            RegDelete "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "spaceFn"
+        }
     }
 }
